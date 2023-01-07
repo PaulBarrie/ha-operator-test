@@ -53,6 +53,7 @@ serviceNameOverride: ""
 service:
   type: NodePort
   port: 80
+  targetPort:
 
 ingress:
   enabled: false

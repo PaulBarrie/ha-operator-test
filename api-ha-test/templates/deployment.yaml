@@ -44,7 +44,7 @@ spec:
             - name: "HOST_LIST"
               value: {{ .Values.neighborhoodList | quote }}
             - name: "PORT"
-              value: {{ .Values.service.port | quote }}
+              value: {{ .Values.container.port | quote }}
           readinessProbe:
             {{- toYaml .Values.container.readinessProbe | nindent 12 }}
           resources:
