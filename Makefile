@@ -43,6 +43,6 @@ grafana:
 .PHONY: grafana
 
 kind:
-	@kind delete cluster --name ha-cluster
-	@kind create cluster --config kind.yaml
+	@kind delete cluster --name project-v1
+	@kind create cluster --config kind-config.yaml --name project-v1
 .PHONY: kind

@@ -13,11 +13,11 @@ image:
 neighborhoodList: ""
 
 container:
-  bootTime: 60
+  bootTime: 40
   extraEnvVariables:
     - name: REDIRECTION_PROBABILITY
       value: "0.5"
-  port: 5001
+  port: 80
   readinessProbe:
     httpGet:
       path: /internal/ready

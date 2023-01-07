@@ -8,7 +8,9 @@ CHART_FOLDER=api-ha-test
 
 number_of_instances=$1
 number_of_replica_per_instance=$2
-neighbor_base_host=$3
+fake_app_boot_time=$3
+neighbor_base_host=$4
+
 
 function getNeighborhoodInstances() {
     local instance=$1
@@ -49,9 +51,17 @@ do
     echo "Creating instance $i"
     # shellcheck disable=SC2091
     neighborhood=$(getNeighborhoodInstances "$i" $number_of_instances)
-    helm install "instance-$i" "$CHART_FOLDER" \
-               --set replicaCount=$number_of_replica_per_instance \
-               --set "neighborhoodList=$neighborhood"
+
+    if [ -z "$fake_boot_time" ]; then
+      helm install "instance-$i" "$CHART_FOLDER" \
+                 --set replicaCount=$number_of_replica_per_instance \
+                 --set "neighborhoodList=$neighborhood" \
+                 --set "container.bootTime=$fake_app_boot_time"
+    else
+       helm install "instance-$i" "$CHART_FOLDER" \
+                       --set replicaCount=$number_of_replica_per_instance \
+                       --set "neighborhoodList=$neighborhood"
+    fi
 done
 
 helm ls --all-namespaces

@@ -25,7 +25,7 @@ func main() {
 		}
 		BootTime = bootTime
 	}
-	log.Default().Println("Wait %d time as fake boot: ", BootTime)
+	log.Default().Println(fmt.Sprintf("Wait %d time as fake boot: ", BootTime))
 	time.Sleep(time.Duration(BootTime) * time.Second)
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
