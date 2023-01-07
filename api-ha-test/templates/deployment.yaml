@@ -39,6 +39,8 @@ spec:
               protocol: TCP
           env:
             {{- toYaml .Values.container.extraEnvVariables | nindent 12 }}
+            - name: "BOOT_TIME"
+              value: {{ .Values.container.bootTime | quote }}
             - name: "HOST_LIST"
               value: {{ .Values.neighborhoodList | quote }}
             - name: "PORT"

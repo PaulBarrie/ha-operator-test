@@ -8,6 +8,7 @@ PROMETHEUS_CHART_VERSION=19.2.2
 PROMETHEUS_CHART_NAME=prometheus
 PROMETHEUS_VALUES_FILE=./values/prometheus.yaml
 
+FAKE_APP_BOOT_TIME=40
 
 docker-build:
 	@docker build -t $(IMAGE_NAME) api
@@ -23,7 +24,7 @@ deploy:
 .PHONY: deploy
 
 install:
-	@./install.sh $(nbInstances) $(nbReplicasPerInstance)
+	@./install.sh $(nbInstances) $(nbReplicasPerInstance) $(FAKE_APP_BOOT_TIME)
 .PHONY: install
 
 uninstall:
@@ -40,3 +41,8 @@ grafana:
 	@helm repo add grafana https://grafana.github.io/helm-charts
 	@helm install grafana grafana/grafana --version 6.49.0
 .PHONY: grafana
+
+kind:
+	@kind delete cluster --name ha-cluster
+	@kind create cluster --config kind.yaml
+.PHONY: kind

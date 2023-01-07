@@ -9,11 +9,24 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const serverListSeparator = "_"
 
+var BootTime = 10
+
 func main() {
+	bootTimeEnv := os.Getenv("BOOT_TIME")
+	if bootTimeEnv != "" {
+		bootTime, err := strconv.Atoi(bootTimeEnv)
+		if err != nil {
+			log.Default().Fatalln("BOOT_TIME must be an integer.")
+		}
+		BootTime = bootTime
+	}
+	log.Default().Println("Wait %d time as fake boot: ", BootTime)
+	time.Sleep(time.Duration(BootTime) * time.Second)
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		redirectionProbability, err := strconv.ParseFloat(os.Getenv("REDIRECTION_PROBABILITY"), 64)
